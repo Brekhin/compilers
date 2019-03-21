@@ -20,6 +20,7 @@ func priority(ch string) int {
 	return 0
 }
 
+// ConvertRegexToPostfix is a function that converts a regular expression to a postfix form
 func ConvertRegexToPostfix(infix string) list.List {
 
 	opstack := stack.New()
@@ -31,13 +32,13 @@ func ConvertRegexToPostfix(infix string) list.List {
 			opstack.Push(string(symbol))
 		case symbol == ')':
 			for opstack.Peek() != "(" {
-				result.PushBack(opstack.Peek().(string))
+				result.PushBack(opstack.Peek())
 				opstack.Pop()
 			}
 			opstack.Pop()
 		case priority(string(symbol)) > 0:
 			for opstack.Len() > 0 && priority(string(symbol)) <= priority(opstack.Peek().(string)) {
-				result.PushBack(opstack.Peek().(string))
+				result.PushBack(opstack.Peek())
 				opstack.Pop()
 			}
 			opstack.Push(string(symbol))
@@ -47,7 +48,7 @@ func ConvertRegexToPostfix(infix string) list.List {
 	}
 
 	for opstack.Len() > 0 {
-		result.PushBack(opstack.Peek().(string))
+		result.PushBack(opstack.Peek())
 		opstack.Pop()
 	}
 
